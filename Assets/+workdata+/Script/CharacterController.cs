@@ -9,7 +9,7 @@ public class CharacterController : MonoBehaviour
     private Rigidbody2D _rb;
     [Header("Movement Speed")]
     [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpforce = 6f;
+    [SerializeField] private float jumpforce = 8f;
     [Header("Ground Check")]
     [SerializeField] private GameObject groundCheck;
     [SerializeField] private LayerMask groundLayer;
