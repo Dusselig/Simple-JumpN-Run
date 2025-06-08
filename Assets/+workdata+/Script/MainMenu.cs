@@ -14,12 +14,10 @@ public class MainMenu : MonoBehaviour
         _startButton.onClick.AddListener(StartGame);
         _quitButton.onClick.AddListener(QuitGame);
     }
-
     private void StartGame()
     {
         SceneManager.LoadScene(1);
     }
-
     private void QuitGame()
     {
 #if UNITY_EDITOR

@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
         _backtoGame = GameObject.Find("BackToGame").GetComponent<Button>();
         _backtoGame.onClick.AddListener(BackToGame);
         _backToMainMenuButton.onClick.AddListener(BackToMainMenu);
-        
         _panel.SetActive(false);
         
     }

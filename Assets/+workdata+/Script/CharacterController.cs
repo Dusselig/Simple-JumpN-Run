@@ -24,14 +24,15 @@ public class CharacterController : MonoBehaviour
     
     void Update()
     {
-        //call the SimpleMovement function
+        //call the SimpleMovement function every frame
         SimpleMovement();
     }
 
     private void SimpleMovement()
     {
+        //stop movement of the character if the player is not active moving
         dir = 0;
-        //check if the player can move befor allowing movement
+        //check if the player can move before allowing movement
         if (_canMove)
         {
             dir = 0;
@@ -63,7 +64,7 @@ public class CharacterController : MonoBehaviour
 
     private void Jump()
     {
-        //Check if a circle on the groundCheck GameObject is overlapping with a groundLayer
+        //Check if a circle on the groundCheck GameObject is overlapping with a groundLayer and if they overlap set _isGrounded to true
         if (Physics2D.OverlapCircle(groundCheck.transform.position, .25f, groundLayer))
         {
             _isGrounded = true;
