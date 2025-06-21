@@ -7,6 +7,7 @@ public class CharacterController : MonoBehaviour
     private bool _canMove = true;
     private float dir;
     private Rigidbody2D _rb;
+    [SerializeField] private CountersAndTimer counterAndTimer;
     [Header("Movement Speed")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpforce = 8f;
@@ -77,4 +78,21 @@ public class CharacterController : MonoBehaviour
             _isGrounded = false;
         }
     }
+    //check if player collides with any other Collider
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        //check if the collided game object has the "Coin" tag
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            //destroy the coin and activate the AddCoin function
+            Destroy(other.gameObject);
+            counterAndTimer.AddCoin();
+        }
+        else if (other.gameObject.CompareTag("Crystal"))
+        {
+            Destroy(other.gameObject);
+            counterAndTimer.AddCry();
+        }
+    }
+    
 }
