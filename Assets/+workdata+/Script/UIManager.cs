@@ -10,7 +10,6 @@ public class UIManager : MonoBehaviour
     private GameObject _escPanel;
     private Button _backToMainMenuButtonEsc;
     private Button _backtoGameEsc;
-    
     private TMP_Text _coinTextEsc;
     private TMP_Text _cryTextEsc;
     private TMP_Text _timerTextEsc;
@@ -18,7 +17,6 @@ public class UIManager : MonoBehaviour
     private GameObject _deathPanel;
     private Button _backToMainMenuButtonD;
     private Button _retryButtonD;
-    
     private TMP_Text _coinTextD;
     private TMP_Text _cryTextD;
     private TMP_Text _timerTextD;
@@ -26,13 +24,9 @@ public class UIManager : MonoBehaviour
     private GameObject _winPanel;
     private Button _backToMainMenuButtonW;
     private Button _retryButtonW;
-    
-    private TMP_Text _coinTextW;
-    private TMP_Text _cryTextW;
-    private TMP_Text _timerTextW;
+    private TMP_Text _score;
     
     private GameObject _ingamePanel;
-    
     private TMP_Text _coinTextI;
     private TMP_Text _cryTextI;
     private TMP_Text _timerTextI;
@@ -67,9 +61,7 @@ public class UIManager : MonoBehaviour
         
         _backToMainMenuButtonW = GameObject.Find("BackToMainMenuButtonW").GetComponent<Button>();
         _retryButtonW = GameObject.Find("RetryButtonW").GetComponent<Button>();
-        _coinTextW = GameObject.Find("CoinCounterW").GetComponent<TMP_Text>();
-        _cryTextW = GameObject.Find("CrystalCounterW").GetComponent<TMP_Text>();
-        _timerTextW = GameObject.Find("TimeLeftW").GetComponent<TMP_Text>();
+        _score = GameObject.Find("Score").GetComponent<TMP_Text>();
         
         _retryButtonW.onClick.AddListener(Retry);
         _backToMainMenuButtonW.onClick.AddListener(BackToMainMenu);
@@ -139,8 +131,10 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void WinPanel()
+    public void WinPanel(int newScore)
     {
+        float _trueScore = newScore + _time;
+        _score.text = "Score: " + _trueScore.ToString();
         _winPanel.SetActive(true);
         _ingamePanel.SetActive(false);
         Time.timeScale = 0;
@@ -150,7 +144,6 @@ public class UIManager : MonoBehaviour
     {
         _coinTextEsc.text = newCount.ToString();
         _coinTextD.text = newCount.ToString();
-        _coinTextW.text = newCount.ToString();
         _coinTextI.text = newCount.ToString();
     }
 
@@ -158,7 +151,6 @@ public class UIManager : MonoBehaviour
     {
         _cryTextEsc.text = newCry.ToString();
         _cryTextD.text = newCry.ToString();
-        _cryTextW.text = newCry.ToString();
         _cryTextI.text = newCry.ToString();
     }
 
@@ -178,7 +170,6 @@ public class UIManager : MonoBehaviour
         _time--;
         _timerTextEsc.text = _time.ToString();
         _timerTextD.text = _time.ToString();
-        _timerTextW.text = _time.ToString();
         _timerTextI.text = _time.ToString();
         UpdateTextTimer();
     }

@@ -8,7 +8,7 @@ public class CountersAndTimer : MonoBehaviour
     
     private int _coinC = 0;
     private int _cryC = 0;
-    
+    private int _score;
     
     [SerializeField]private UIManager _uiManager;
     
@@ -16,15 +16,17 @@ public class CountersAndTimer : MonoBehaviour
     public void AddCoin()
     {
         _coinC++;
+        _score++;
         _uiManager.UpdateTextCoinCount(_coinC);
     }
     public void AddCry()
     {
         _cryC++;
+        _score = _score + 10;
         _uiManager.UpdateTextCry(_cryC);
         if (_cryC >= 3)
         {
-            _uiManager.WinPanel();
+            _uiManager.WinPanel(_score);
         }
     }
     
