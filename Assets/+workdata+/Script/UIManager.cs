@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -31,6 +32,9 @@ public class UIManager : MonoBehaviour
     private TMP_Text _cryTextI;
     private TMP_Text _timerTextI;
     
+    private GameObject _countdownPanel;
+    private TMP_Text _countdownText;
+    
     private float _time = 60;
     void Start()
     {
@@ -38,6 +42,9 @@ public class UIManager : MonoBehaviour
         _escPanel = GameObject.Find("EscPanel");
         _winPanel = GameObject.Find("WinPanel");
         _ingamePanel = GameObject.Find("InGamePanel");
+        _countdownPanel = GameObject.Find("CountdownPanel");
+        
+        _countdownText = GameObject.Find("CountdownText").GetComponent<TMP_Text>();
         
         _backToMainMenuButtonEsc = GameObject.Find("BackToMenuButtonEsc").GetComponent<Button>();
         _backtoGameEsc = GameObject.Find("BackToGameEsc").GetComponent<Button>();
@@ -80,14 +87,22 @@ public class UIManager : MonoBehaviour
     
     private IEnumerator Countdown()
     {
-        int count = 3;
+        int count = 4;
       
         while (count > 0) 
         {
             yield return new WaitForSecondsRealtime(1);
             count --;
-            Debug.Log("count" + count);
+            if (count > 0)
+            {
+                _countdownText.text = count.ToString();
+            }
+            else if (count == 0)
+            {
+                _countdownText.text = "Go!!";
+            }
         }
+        _countdownPanel.SetActive(false);
         _ingamePanel.SetActive(true);
         StartGame();
     }
