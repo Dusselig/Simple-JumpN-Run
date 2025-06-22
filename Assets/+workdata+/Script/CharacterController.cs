@@ -9,6 +9,7 @@ public class CharacterController : MonoBehaviour
     private Rigidbody2D _rb;
     [SerializeField] private CountersAndTimer counterAndTimer;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private AudioManager audioManager;
     [Header("Movement Speed")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpforce = 8f;
@@ -77,6 +78,7 @@ public class CharacterController : MonoBehaviour
             //jump and set the _isGrounded variable to false
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpforce);
             _isGrounded = false;
+            audioManager.PlayJumpSound();
         }
     }
     //check if player collides with any other Collider with a trigger active
@@ -88,6 +90,7 @@ public class CharacterController : MonoBehaviour
             //destroy the coin and activate the AddCoin function
             Destroy(other.gameObject);
             counterAndTimer.AddCoin();
+            audioManager.PlayCoinSound();
         }//check if the collided game object has the "Crystal" tag
         else if (other.gameObject.CompareTag("Crystal"))
         {
