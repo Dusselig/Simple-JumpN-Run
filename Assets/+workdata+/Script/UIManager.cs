@@ -8,25 +8,78 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     private GameObject _escPanel;
-    private Button _backToMainMenuButton;
-    private Button _backtoGame;
+    private Button _backToMainMenuButtonEsc;
+    private Button _backtoGameEsc;
     
-    private TMP_Text _coinText;
-    private TMP_Text _cryText;
-    private TMP_Text _TimerText;
+    private TMP_Text _coinTextEsc;
+    private TMP_Text _cryTextEsc;
+    private TMP_Text _timerTextEsc;
+    
+    private GameObject _deathPanel;
+    private Button _backToMainMenuButtonD;
+    private Button _retryButtonD;
+    
+    private TMP_Text _coinTextD;
+    private TMP_Text _cryTextD;
+    private TMP_Text _timerTextD;
+    
+    private GameObject _winPanel;
+    private Button _backToMainMenuButtonW;
+    private Button _retryButtonW;
+    
+    private TMP_Text _coinTextW;
+    private TMP_Text _cryTextW;
+    private TMP_Text _timerTextW;
+    
+    private GameObject _ingamePanel;
+    
+    private TMP_Text _coinTextI;
+    private TMP_Text _cryTextI;
+    private TMP_Text _timerTextI;
+    
     private float _time = 60;
-    private bool _gameOn = false;
     void Start()
     {
+        _deathPanel = GameObject.Find("DeathPanel");
         _escPanel = GameObject.Find("EscPanel");
-        _backToMainMenuButton = GameObject.Find("BackToMenuButton").GetComponent<Button>();
-        _backtoGame = GameObject.Find("BackToGame").GetComponent<Button>();
-        _coinText = GameObject.Find("CoinCounter").GetComponent<TMP_Text>();
-        _cryText = GameObject.Find("CrystalCounter").GetComponent<TMP_Text>();
-        _TimerText = GameObject.Find("TimeLeft").GetComponent<TMP_Text>();
-        _backtoGame.onClick.AddListener(BackToGame);
-        _backToMainMenuButton.onClick.AddListener(BackToMainMenu);
+        _winPanel = GameObject.Find("WinPanel");
+        _ingamePanel = GameObject.Find("InGamePanel");
+        
+        _backToMainMenuButtonEsc = GameObject.Find("BackToMenuButtonEsc").GetComponent<Button>();
+        _backtoGameEsc = GameObject.Find("BackToGameEsc").GetComponent<Button>();
+        _coinTextEsc = GameObject.Find("CoinCounterEsc").GetComponent<TMP_Text>();
+        _cryTextEsc = GameObject.Find("CrystalCounterEsc").GetComponent<TMP_Text>();
+        _timerTextEsc = GameObject.Find("TimeLeftEsc").GetComponent<TMP_Text>();
+        
+        _backtoGameEsc.onClick.AddListener(BackToGame);
+        _backToMainMenuButtonEsc.onClick.AddListener(BackToMainMenu);
         _escPanel.SetActive(false);
+        
+        _backToMainMenuButtonD = GameObject.Find("BackToMenuButtonD").GetComponent<Button>();
+        _retryButtonD = GameObject.Find("RetryButtonD").GetComponent<Button>();
+        _coinTextD = GameObject.Find("CoinCounterD").GetComponent<TMP_Text>();
+        _cryTextD = GameObject.Find("CrystalCounterD").GetComponent<TMP_Text>();
+        _timerTextD = GameObject.Find("TimeLeftD").GetComponent<TMP_Text>();
+        
+        _retryButtonD.onClick.AddListener(Retry);
+        _backToMainMenuButtonD.onClick.AddListener(BackToMainMenu);
+        _deathPanel.SetActive(false);
+        
+        _backToMainMenuButtonW = GameObject.Find("BackToMainMenuButtonW").GetComponent<Button>();
+        _retryButtonW = GameObject.Find("RetryButtonW").GetComponent<Button>();
+        _coinTextW = GameObject.Find("CoinCounterW").GetComponent<TMP_Text>();
+        _cryTextW = GameObject.Find("CrystalCounterW").GetComponent<TMP_Text>();
+        _timerTextW = GameObject.Find("TimeLeftW").GetComponent<TMP_Text>();
+        
+        _retryButtonW.onClick.AddListener(Retry);
+        _backToMainMenuButtonW.onClick.AddListener(BackToMainMenu);
+        _winPanel.SetActive(false);
+        
+        _coinTextI = GameObject.Find("CoinCounterI").GetComponent<TMP_Text>();
+        _cryTextI = GameObject.Find("CrystalCounterI").GetComponent<TMP_Text>();
+        _timerTextI = GameObject.Find("TimeLeftI").GetComponent<TMP_Text>();
+        _ingamePanel.SetActive(false);
+        
         StartCoroutine(Countdown());
         Time.timeScale = 0;
         UpdateTextTimer();
@@ -43,7 +96,7 @@ public class UIManager : MonoBehaviour
             count --;
             Debug.Log("count" + count);
         }
-        
+        _ingamePanel.SetActive(true);
         StartGame();
     }
 
@@ -57,6 +110,7 @@ public class UIManager : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             Time.timeScale = 0;
+            _ingamePanel.SetActive(false);
             _escPanel.SetActive(true);
         }
     }
@@ -64,22 +118,48 @@ public class UIManager : MonoBehaviour
     private void BackToGame()
     {
         _escPanel.SetActive(false);
+        _ingamePanel.SetActive(true);
         Time.timeScale = 1;
+    }
+
+    private void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
     private void BackToMainMenu()
     {
         SceneManager.LoadScene(0);
     }
+
+    public void ActiveDeathPanel()
+    {
+        _deathPanel.SetActive(true);
+        _ingamePanel.SetActive(false);
+        Time.timeScale = 0;
+    }
+
+    public void WinPanel()
+    {
+        _winPanel.SetActive(true);
+        _ingamePanel.SetActive(false);
+        Time.timeScale = 0;
+    }
     
     public void UpdateTextCoinCount(int newCount)
     {
-        _coinText.text = newCount.ToString();
+        _coinTextEsc.text = newCount.ToString();
+        _coinTextD.text = newCount.ToString();
+        _coinTextW.text = newCount.ToString();
+        _coinTextI.text = newCount.ToString();
     }
 
     public void UpdateTextCry(int newCry)
     {
-        _cryText.text = newCry.ToString();
+        _cryTextEsc.text = newCry.ToString();
+        _cryTextD.text = newCry.ToString();
+        _cryTextW.text = newCry.ToString();
+        _cryTextI.text = newCry.ToString();
     }
 
     
@@ -96,7 +176,10 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Countdown: " + _time);
         _time--;
-        _TimerText.text = _time.ToString();
+        _timerTextEsc.text = _time.ToString();
+        _timerTextD.text = _time.ToString();
+        _timerTextW.text = _time.ToString();
+        _timerTextI.text = _time.ToString();
         UpdateTextTimer();
     }
     

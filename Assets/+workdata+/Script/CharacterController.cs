@@ -8,6 +8,7 @@ public class CharacterController : MonoBehaviour
     private float dir;
     private Rigidbody2D _rb;
     [SerializeField] private CountersAndTimer counterAndTimer;
+    [SerializeField] private UIManager uiManager;
     [Header("Movement Speed")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpforce = 8f;
@@ -78,7 +79,7 @@ public class CharacterController : MonoBehaviour
             _isGrounded = false;
         }
     }
-    //check if player collides with any other Collider
+    //check if player collides with any other Collider with a trigger active
     private void OnTriggerEnter2D(Collider2D other)
     {
         //check if the collided game object has the "Coin" tag
@@ -87,11 +88,22 @@ public class CharacterController : MonoBehaviour
             //destroy the coin and activate the AddCoin function
             Destroy(other.gameObject);
             counterAndTimer.AddCoin();
-        }
+        }//check if the collided game object has the "Crystal" tag
         else if (other.gameObject.CompareTag("Crystal"))
         {
+            //destroy the Crystal and activate the AddCry function
             Destroy(other.gameObject);
             counterAndTimer.AddCry();
+        }//check if the collided game object has the "death" tag
+        
+    }
+    //check if player collides with any other Collider
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("death"))
+        {
+            //stops the game time (movement and timers)
+            uiManager.ActiveDeathPanel();
         }
     }
     

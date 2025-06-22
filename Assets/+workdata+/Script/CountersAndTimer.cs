@@ -22,6 +22,10 @@ public class CountersAndTimer : MonoBehaviour
     {
         _cryC++;
         _uiManager.UpdateTextCry(_cryC);
+        if (_cryC >= 3)
+        {
+            _uiManager.WinPanel();
+        }
     }
     
     
